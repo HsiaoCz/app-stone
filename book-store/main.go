@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/HsiaoCz/app-stone/pan-music/handlers"
+	"github.com/HsiaoCz/app-stone/book-store/handlers"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 )
@@ -51,7 +51,8 @@ func main() {
 	logrus.WithFields(logrus.Fields{
 		"auther":         "HsiaoCz",
 		"listen address": port,
-		"app name":       "pan-music",
+		"app name":       "book-store",
+		"version":        "v0.0.1",
 	}).Info("server started .......")
 	// 设置系统信号通道监听
 	quit := make(chan os.Signal, 1)
