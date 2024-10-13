@@ -1,9 +1,8 @@
 -- +goose Up
+CREATE TABLE IF NOT EXISTS albums();
 -- +goose StatementBegin
-SELECT 'up SQL query';
 -- +goose StatementEnd
-
 -- +goose Down
+DROP TABLE IF EXISTS albums;
 -- +goose StatementBegin
-SELECT 'down SQL query';
 -- +goose StatementEnd

@@ -1,9 +1,8 @@
 -- +goose Up
+CREATE TABLE IF NOT EXISTS likes();
 -- +goose StatementBegin
-SELECT 'up SQL query';
 -- +goose StatementEnd
-
 -- +goose Down
+DROP TABLE IF EXISTS likes;
 -- +goose StatementBegin
-SELECT 'down SQL query';
 -- +goose StatementEnd

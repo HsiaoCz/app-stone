@@ -1,9 +1,8 @@
 -- +goose Up
+CREATE TABLE IF NOT EXISTS playlist_songs();
 -- +goose StatementBegin
-SELECT 'up SQL query';
 -- +goose StatementEnd
-
 -- +goose Down
+DROP TABLE IF EXISTS playlist_songs;
 -- +goose StatementBegin
-SELECT 'down SQL query';
 -- +goose StatementEnd
