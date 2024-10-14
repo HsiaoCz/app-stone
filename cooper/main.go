@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/HsiaoCz/app-stone/pan-music/handlers"
+	"github.com/HsiaoCz/app-stone/cooper/handlers"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 )
