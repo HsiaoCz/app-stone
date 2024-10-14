@@ -2,7 +2,6 @@ package types
 
 import "gorm.io/gorm"
 
-
-type Reviews struct{
+type Users struct {
 	gorm.Model
 }

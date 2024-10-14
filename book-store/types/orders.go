@@ -1,6 +1,7 @@
 package types
 
+import "gorm.io/gorm"
 
-type Orders struct{
-
+type Orders struct {
+	gorm.Model
 }
