@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/HsiaoCz/app-stone/pan-music/types"
+	"github.com/HsiaoCz/app-stone/ebuy/types"
 	"github.com/sirupsen/logrus"
 )
 
