@@ -1,5 +1,7 @@
 -- +goose Up
-CREATE TABLE IF NOT EXISTS comments();
+CREATE TABLE IF NOT EXISTS comments(
+    
+);
 -- +goose StatementBegin
 -- +goose StatementEnd
 -- +goose Down
