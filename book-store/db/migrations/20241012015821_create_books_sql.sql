@@ -1,7 +1,7 @@
 -- +goose Up
 CREATE TABLE IF NOT EXISTS books(
     id integer primary key,
-    book_id integer unique not null,
+    book_id text unique not null,
     title text not null,
     auther text not null,
     price float not null,

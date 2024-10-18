@@ -1,7 +1,7 @@
 -- +goose Up
 CREATE TABLE IF NOT EXISTS users(
     id integer primary key,
-    user_id integer unique not null,
+    user_id text unique not null,
     username text not null,
     email text unique not null,
     password_hash text not null,
