@@ -1,3 +1,7 @@
 package types
 
-type Community_Members struct{}
+import "gorm.io/gorm"
+
+type Community_Members struct{
+	gorm.Model
+}

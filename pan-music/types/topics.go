@@ -1,4 +1,8 @@
 package types
 
+import "gorm.io/gorm"
 
-type Topics struct{}
+
+type Topics struct{
+	gorm.Model
+}

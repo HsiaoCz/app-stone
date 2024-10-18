@@ -1,4 +1,7 @@
 package types
 
+import "gorm.io/gorm"
 
-type Albums struct{}
+type Albums struct {
+	gorm.Model
+}

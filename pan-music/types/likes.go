@@ -1,4 +1,8 @@
 package types
 
+import "gorm.io/gorm"
 
-type Likes struct{}
+
+type Likes struct{
+	gorm.Model
+}

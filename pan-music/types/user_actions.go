@@ -1,3 +1,7 @@
 package types
 
-type User_Actions struct{}
+import "gorm.io/gorm"
+
+type User_Actions struct{
+	gorm.Model
+}
