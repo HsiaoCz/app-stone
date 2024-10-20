@@ -10,3 +10,9 @@ type Users struct {
 	PasswordHash string `gorm:"column:password_hash;" json:"-"`
 	Role         bool   `gorm:"column:role;" json:"role"`
 }
+
+type UserInfo struct {
+	UserID string
+	Email  string
+	Role   bool
+}
