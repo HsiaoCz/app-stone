@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/HsiaoCz/app-stone/pan-music/handlers"
+	"github.com/HsiaoCz/app-stone/pan-music/handlers/middlewares"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 )
@@ -26,9 +27,11 @@ func main() {
 	var (
 		port        = os.Getenv("PORT")
 		testHandler = &handlers.TestHandler{}
+		userHandler = &handlers.UserHandlers{}
 		router      = http.NewServeMux()
 	)
 	router.HandleFunc("GET /api/v1/test", testHandler.HandleTestConnect)
+	router.HandleFunc("POST /api/v1/user", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(userHandler.HandleCreateUser)))
 
 	srv := http.Server{
 		Addr:         port,
