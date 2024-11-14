@@ -12,6 +12,9 @@ import (
 	"github.com/HsiaoCz/app-stone/book-store/handlers/middlewares"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 func main() {
@@ -23,6 +26,27 @@ func main() {
 	}
 	logrus.SetLevel(logrus.DebugLevel)
 	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
+
+	// 创建一个上下文，设置超时时间，确保优雅关闭
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGOURL")))
+	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"error message": err,
+		}).Error("connect mongodb failed,please check the env file....")
+		os.Exit(1)
+	}
+
+	go func() {
+		if err := client.Ping(ctx, &readpref.ReadPref{}); err != nil {
+			logrus.WithFields(logrus.Fields{
+				"error message": err,
+			}).Error("mongodb connection broken,please check out....")
+			os.Exit(1)
+		}
+	}()
 
 	var (
 		port        = os.Getenv("PORT")
@@ -56,7 +80,7 @@ func main() {
 		"listen address": port,
 		"app name":       "book-store",
 		"version":        "v0.0.1",
-	}).Info("server started .......")
+	}).Info("server is running .......")
 	// 设置系统信号通道监听
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
@@ -64,10 +88,6 @@ func main() {
 	// 阻塞，直到收到停止信号
 	<-quit
 	logrus.Info("Shutting down server...")
-
-	// 创建一个上下文，设置超时时间，确保优雅关闭
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
 
 	// 优雅关闭服务器
 	if err := srv.Shutdown(ctx); err != nil {
