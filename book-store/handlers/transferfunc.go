@@ -59,6 +59,8 @@ func TransferHandlerfunc(h Handlerfunc) http.HandlerFunc {
 	}
 }
 
+type H map[string]any
+
 func WriteJson(w http.ResponseWriter, code int, v any) error {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
