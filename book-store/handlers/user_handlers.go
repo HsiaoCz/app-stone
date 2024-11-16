@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/HsiaoCz/app-stone/book-store/data"
+	"github.com/HsiaoCz/app-stone/book-store/handlers/middlewares"
 	"github.com/HsiaoCz/app-stone/book-store/types"
 )
 
@@ -32,5 +33,26 @@ func (u *UserHandlers) HandleCreateUser(w http.ResponseWriter, r *http.Request) 
 		"status":  http.StatusOK,
 		"message": "create user success",
 		"data":    userReturn,
+	})
+}
+
+func (u *UserHandlers) HandleUserLogin(w http.ResponseWriter, r *http.Request) error {
+	var user_login_params types.UserLoginParams
+	if err := json.NewDecoder(r.Body).Decode(&user_login_params); err != nil {
+		return ErrorMessage(http.StatusBadRequest, err.Error())
+	}
+	user, err := u.user.GetUserByEmailAndPassword(r.Context(), &user_login_params)
+	if err != nil {
+		return ErrorMessage(http.StatusInternalServerError, "there is no record,please signup")
+	}
+	token, err := middlewares.GenToken(user.UserID, user.Email, user.Role)
+	if err != nil {
+		return ErrorMessage(http.StatusInternalServerError, err.Error())
+	}
+	return WriteJson(w, http.StatusOK, H{
+		"status":  http.StatusOK,
+		"message": "login success",
+		"token":   token,
+		"data":    user,
 	})
 }

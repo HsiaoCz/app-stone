@@ -1,7 +1,7 @@
 package types
 
 import (
-	pkg "github.com/HsiaoCz/app-stone/book-store/pkgs"
+	"github.com/HsiaoCz/app-stone/book-store/pkgs"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -33,7 +33,14 @@ func CreateUserFromParams(param CreateUserParams) *Users {
 		UserID:       uuid.New().String(),
 		Username:     param.Username,
 		Email:        param.Email,
-		PasswordHash: pkg.EncryPassword(param.Password),
+		PasswordHash: pkgs.EncryPassword(param.Password),
 		Role:         param.Role,
 	}
 }
+
+type UserLoginParams struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+
