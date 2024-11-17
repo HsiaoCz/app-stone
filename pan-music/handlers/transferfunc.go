@@ -65,3 +65,5 @@ func WriteJson(w http.ResponseWriter, code int, v any) error {
 	StatusCode.Code = code
 	return json.NewEncoder(w).Encode(v)
 }
+
+type H map[string]any

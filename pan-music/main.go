@@ -40,6 +40,7 @@ func main() {
 	)
 	router.HandleFunc("GET /api/v1/test", testHandler.HandleTestConnect)
 	router.HandleFunc("POST /api/v1/user", handlers.TransferHandlerfunc(userHandler.HandleCreateUser))
+	router.HandleFunc("POST /api/v1/user/login", handlers.TransferHandlerfunc(userHandler.HandleUserLogin))
 
 	srv := http.Server{
 		Addr:         port,

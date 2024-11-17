@@ -36,3 +36,8 @@ func CreateUserFromParams(params CreateUserParams) *Users {
 		Role:         params.Role,
 	}
 }
+
+type UserLogin struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
