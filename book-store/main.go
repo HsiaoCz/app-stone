@@ -8,8 +8,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/HsiaoCz/app-stone/book-store/data"
+	"github.com/HsiaoCz/app-stone/book-store/db"
 	"github.com/HsiaoCz/app-stone/book-store/handlers"
-	"github.com/HsiaoCz/app-stone/book-store/handlers/middlewares"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -51,11 +52,13 @@ func main() {
 	var (
 		port        = os.Getenv("PORT")
 		testHandler = &handlers.TestHandler{}
-		userHandler = &handlers.UserHandlers{}
+		userHandler = handlers.UserHandlersInit(data.UserDataInit(db.Get()))
 		router      = http.NewServeMux()
 	)
 	router.HandleFunc("GET /api/v1/test", testHandler.HandleTestConnect)
-	router.HandleFunc("POST /api/v1/user", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(userHandler.HandleCreateUser)))
+	router.HandleFunc("POST /api/v1/user", handlers.TransferHandlerfunc(userHandler.HandleCreateUser))
+	router.HandleFunc("POST /api/v1/user/login", handlers.TransferHandlerfunc(userHandler.HandleUserLogin))
+	router.HandleFunc("GET /api/v1/user/{user_id}", handlers.TransferHandlerfunc(userHandler.HandleGetUserByID))
 
 	srv := http.Server{
 		Addr:         port,

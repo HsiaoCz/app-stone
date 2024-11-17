@@ -11,6 +11,8 @@ import (
 type UserDataInter interface {
 	CreateUser(context.Context, *types.Users) (*types.Users, error)
 	GetUserByEmailAndPassword(context.Context, *types.UserLoginParams) (*types.Users, error)
+	GetUserByID(context.Context, string) (*types.Users, error)
+	DeleteUserByID(context.Context, string) error
 }
 
 type UserData struct {
@@ -38,4 +40,18 @@ func (u *UserData) GetUserByEmailAndPassword(ctx context.Context, params *types.
 		return nil, tx.Error
 	}
 	return &user, nil
+}
+
+func (u *UserData) GetUserByID(ctx context.Context, user_id string) (*types.Users, error) {
+	var user types.Users
+	tx := u.db.Debug().WithContext(ctx).Model(&types.Users{}).Where("user_id = ?", user_id).First(&user)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return &user, nil
+}
+
+func (u *UserData) DeleteUserByID(ctx context.Context, user_id string) error {
+	tx := u.db.Debug().WithContext(ctx).Model(&types.Users{}).Delete("user_id = ?", user_id)
+	return tx.Error
 }

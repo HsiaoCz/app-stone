@@ -56,3 +56,33 @@ func (u *UserHandlers) HandleUserLogin(w http.ResponseWriter, r *http.Request) e
 		"data":    user,
 	})
 }
+
+func (u *UserHandlers) HandleGetUserByID(w http.ResponseWriter, r *http.Request) error {
+	userInfo, ok := r.Context().Value(types.CtxUserInfoKey).(types.UserInfo)
+	if !ok {
+		return ErrorMessage(http.StatusNonAuthoritativeInfo, "please login")
+	}
+	user, err := u.user.GetUserByID(r.Context(), userInfo.UserID)
+	if err != nil {
+		return ErrorMessage(http.StatusInternalServerError, err.Error())
+	}
+	return WriteJson(w, http.StatusOK, H{
+		"status":  http.StatusOK,
+		"message": "get user success",
+		"user":    user,
+	})
+}
+
+func (u *UserHandlers) HandleDeleteUserByID(w http.ResponseWriter, r *http.Request) error {
+	userInfo, ok := r.Context().Value(types.CtxUserInfoKey).(types.UserInfo)
+	if !ok {
+		return ErrorMessage(http.StatusNonAuthoritativeInfo, "please login")
+	}
+	if err := u.user.DeleteUserByID(r.Context(), userInfo.UserID); err != nil {
+		return ErrorMessage(http.StatusInternalServerError, err.Error())
+	}
+	return WriteJson(w, http.StatusOK, H{
+		"status":  http.StatusOK,
+		"message": "delete user success",
+	})
+}
