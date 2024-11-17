@@ -8,8 +8,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/HsiaoCz/app-stone/pan-music/data"
+	"github.com/HsiaoCz/app-stone/pan-music/db"
 	"github.com/HsiaoCz/app-stone/pan-music/handlers"
-	"github.com/HsiaoCz/app-stone/pan-music/handlers/middlewares"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 )
@@ -24,14 +25,21 @@ func main() {
 	logrus.SetLevel(logrus.DebugLevel)
 	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
 
+	if err := db.Init(); err != nil {
+		logrus.WithFields(logrus.Fields{
+			"error message": err,
+		}).Error("db init error,please check it....")
+		os.Exit(1)
+	}
+
 	var (
 		port        = os.Getenv("PORT")
 		testHandler = &handlers.TestHandler{}
-		userHandler = &handlers.UserHandlers{}
+		userHandler = handlers.UserHandlersInit(data.UserDataInit(db.Get()))
 		router      = http.NewServeMux()
 	)
 	router.HandleFunc("GET /api/v1/test", testHandler.HandleTestConnect)
-	router.HandleFunc("POST /api/v1/user", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(userHandler.HandleCreateUser)))
+	router.HandleFunc("POST /api/v1/user", handlers.TransferHandlerfunc(userHandler.HandleCreateUser))
 
 	srv := http.Server{
 		Addr:         port,
