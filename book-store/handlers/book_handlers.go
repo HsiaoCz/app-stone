@@ -30,6 +30,13 @@ func (b *BookHandlers) HandleCreateBook(w http.ResponseWriter, r *http.Request) 
 	if err := json.NewDecoder(r.Body).Decode(&book); err != nil {
 		return ErrorMessage(http.StatusBadRequest, err.Error())
 	}
-
-	return nil
+	bookReturn, err := b.book.CreateBook(r.Context(), &book)
+	if err != nil {
+		return ErrorMessage(http.StatusInternalServerError, err.Error())
+	}
+	return WriteJson(w, http.StatusOK, H{
+		"status":  http.StatusOK,
+		"message": "create book success",
+		"book":    bookReturn,
+	})
 }

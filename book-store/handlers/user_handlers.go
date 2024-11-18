@@ -86,3 +86,11 @@ func (u *UserHandlers) HandleDeleteUserByID(w http.ResponseWriter, r *http.Reque
 		"message": "delete user success",
 	})
 }
+
+func (u *UserHandlers) HandleUpdateUser(w http.ResponseWriter, r *http.Request) error {
+	return nil
+}
+
+func (u *UserHandlers) HandleGetUserByUsername(w http.ResponseWriter, r *http.Request) error {
+	return nil
+}
