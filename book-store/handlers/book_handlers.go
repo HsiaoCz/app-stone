@@ -40,3 +40,15 @@ func (b *BookHandlers) HandleCreateBook(w http.ResponseWriter, r *http.Request) 
 		"book":    bookReturn,
 	})
 }
+
+func (b *BookHandlers)HandleGetBookByID(w http.ResponseWriter, r *http.Request)error{
+	return nil
+}
+
+func (b *BookHandlers)HandleDeleteBookByID(w http.ResponseWriter, r *http.Request)error{
+	return nil
+}
+
+func (b *BookHandlers)HandleUpdateBook(w http.ResponseWriter, r *http.Request)error{
+	return nil
+}

@@ -66,6 +66,9 @@ func main() {
 	router.HandleFunc("GET /api/v1/user/search", handlers.TransferHandlerfunc(userHandler.HandleGetUserByUsername))
 
 	router.HandleFunc("POST /api/v1/book", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(bookHandler.HandleCreateBook)))
+	router.HandleFunc("GET /api/v1/book/{book_id}", handlers.TransferHandlerfunc(bookHandler.HandleGetBookByID))
+	router.HandleFunc("DELETE /api/v1/book/{book_id}", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(bookHandler.HandleDeleteBookByID)))
+	router.HandleFunc("PUT /api/v1/book", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(bookHandler.HandleUpdateBook)))
 
 	srv := http.Server{
 		Addr:         port,
