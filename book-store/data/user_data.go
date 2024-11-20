@@ -13,6 +13,7 @@ type UserDataInter interface {
 	GetUserByEmailAndPassword(context.Context, *types.UserLoginParams) (*types.Users, error)
 	GetUserByID(context.Context, string) (*types.Users, error)
 	DeleteUserByID(context.Context, string) error
+	GetUsersByUsername(context.Context, string) ([]*types.Users, error)
 }
 
 type UserData struct {
@@ -54,4 +55,8 @@ func (u *UserData) GetUserByID(ctx context.Context, user_id string) (*types.User
 func (u *UserData) DeleteUserByID(ctx context.Context, user_id string) error {
 	tx := u.db.Debug().WithContext(ctx).Model(&types.Users{}).Delete("user_id = ?", user_id)
 	return tx.Error
+}
+
+func (u *UserData) GetUsersByUsername(ctx context.Context, username string) ([]*types.Users, error) {
+	return nil, nil
 }
