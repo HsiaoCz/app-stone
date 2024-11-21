@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
@@ -19,6 +20,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
+func init() {
+	logrus.SetLevel(logrus.DebugLevel)
+	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
+}
+
 func main() {
 	if err := godotenv.Load(); err != nil {
 		logrus.WithFields(logrus.Fields{
@@ -26,8 +32,27 @@ func main() {
 		}).Error("get env failed,please check the env file")
 		os.Exit(1)
 	}
-	logrus.SetLevel(logrus.DebugLevel)
-	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
+	// init sqlite
+
+	if err := db.Init(); err != nil {
+		logrus.WithFields(logrus.Fields{
+			"error message": err,
+		}).Error("init sqlite error.....")
+		os.Exit(1)
+	}
+
+	// init redis
+
+	go func() {
+		count, err := strconv.Atoi(os.Getenv("DBCOUNT"))
+		if err != nil {
+			logrus.WithFields(logrus.Fields{
+				"error message": err,
+			}).Error("dbcount must be int")
+			os.Exit(1)
+		}
+		db.InitRedis(os.Getenv("REDISURL"), os.Getenv("PASSWD"), count)
+	}()
 
 	// 创建一个上下文，设置超时时间，确保优雅关闭
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
