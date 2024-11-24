@@ -6,6 +6,9 @@ CREATE TABLE IF NOT EXISTS records(
     book_id text not null,
     type_name text not null,
     device text not null,
+    auther text not null,
+    book_name text not null,
+    cover_image text not null,
     created_at datetime not null,
     updated_at datetime not null,
     deleted_at datetime
