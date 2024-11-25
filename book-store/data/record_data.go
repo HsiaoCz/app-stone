@@ -22,5 +22,9 @@ func RecordDataInit(db *gorm.DB) *RecordData {
 }
 
 func (r *RecordData) CreateRecord(ctx context.Context, record *types.Records) (*types.Records, error) {
-	return nil, nil
+	tx := r.db.Debug().WithContext(ctx).Model(&types.Records{}).Create(record)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return record, nil
 }

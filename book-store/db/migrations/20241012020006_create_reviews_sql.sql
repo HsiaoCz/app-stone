@@ -2,6 +2,7 @@
 CREATE TABLE IF NOT EXISTS reviews(
     id integer primary key,
     review_id text unique not null,
+    base_review_id text unique not null,
     user_id text not null references users,
     book_id text not null references books,
     rating float not null,
