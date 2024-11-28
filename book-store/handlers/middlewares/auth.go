@@ -41,7 +41,6 @@ func JwtMiddleware(next http.Handler) http.HandlerFunc {
 		}
 		userInfo := &types.UserInfo{
 			UserID: mc.UserID,
-			Email:  mc.Email,
 			Role:   mc.Role,
 		}
 		ctx := context.WithValue(r.Context(), types.CtxUserInfoKey, userInfo)

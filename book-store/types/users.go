@@ -17,7 +17,6 @@ type Users struct {
 
 type UserInfo struct {
 	UserID string
-	Email  string
 	Role   bool
 }
 
@@ -42,5 +41,3 @@ type UserLoginParams struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
-
-

@@ -15,7 +15,6 @@ import (
 // question: the email hava to exist?
 type myClaims struct {
 	UserID string `json:"userID"`
-	Email  string `json:"email"`
 	Role   bool   `json:"role"`
 	jwt.StandardClaims
 }
@@ -29,7 +28,6 @@ var mySecret = []byte(os.Getenv("JWTSECRET"))
 func GenToken(userID string, email string, isAdmin bool) (string, error) {
 	claims := myClaims{
 		userID,
-		email,
 		isAdmin,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(),
