@@ -17,8 +17,8 @@ type ReviewData struct {
 	db *gorm.DB
 }
 
-func ReviewDataInit(db *gorm.DB) *RecordData {
-	return &RecordData{
+func ReviewDataInit(db *gorm.DB) *ReviewData {
+	return &ReviewData{
 		db: db,
 	}
 }
@@ -49,8 +49,8 @@ func (r *ReviewData) GetReviewByID(ctx context.Context, review_id string) (*type
 	return &review, nil
 }
 
-func (r *RecordData)DeleteReview(ctx context.Context,review_id string)error{
+func (r *ReviewData) DeleteReview(ctx context.Context, review_id string) error {
 	var review types.Reviews
-	tx:=r.db.Debug().WithContext(ctx).Model(&types.Reviews{}).Where("review_id = ?",review_id).Delete(review)
+	tx := r.db.Debug().WithContext(ctx).Model(&types.Reviews{}).Where("review_id = ?", review_id).Delete(review)
 	return tx.Error
 }

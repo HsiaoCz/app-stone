@@ -76,12 +76,15 @@ func main() {
 	}()
 
 	var (
-		port        = os.Getenv("PORT")
-		testHandler = &handlers.TestHandler{}
-		userHandler = handlers.UserHandlersInit(data.UserDataInit(db.Get()))
-		bookHandler = handlers.BookHandlersInit(data.BookDataInit(db.Get()))
-		router      = http.NewServeMux()
+		port          = os.Getenv("PORT")
+		testHandler   = &handlers.TestHandler{}
+		userHandler   = handlers.UserHandlersInit(data.UserDataInit(db.Get()))
+		bookHandler   = handlers.BookHandlersInit(data.BookDataInit(db.Get()))
+		reviewHandler = handlers.ReviewHandlersInit(data.ReviewDataInit(db.Get()))
+		router        = http.NewServeMux()
 	)
+
+	// router
 	router.HandleFunc("GET /api/v1/test", testHandler.HandleTestConnect)
 	router.HandleFunc("POST /api/v1/user", handlers.TransferHandlerfunc(userHandler.HandleCreateUser))
 	router.HandleFunc("POST /api/v1/user/login", handlers.TransferHandlerfunc(userHandler.HandleUserLogin))
@@ -94,6 +97,9 @@ func main() {
 	router.HandleFunc("GET /api/v1/book/{book_id}", handlers.TransferHandlerfunc(bookHandler.HandleGetBookByID))
 	router.HandleFunc("DELETE /api/v1/book/{book_id}", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(bookHandler.HandleDeleteBookByID)))
 	router.HandleFunc("PUT /api/v1/book", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(bookHandler.HandleUpdateBook)))
+
+	router.HandleFunc("POST /api/v1/review", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(reviewHandler.HandleCreateReview)))
+	router.HandleFunc("GET /api/v1/review/{book_id}", middlewares.JwtMiddleware(handlers.TransferHandlerfunc(reviewHandler.HandleGetReviewByBookID)))
 
 	srv := http.Server{
 		Addr:         port,
