@@ -60,3 +60,7 @@ func (u *UserHandlers) HandleCreateUser(c *fiber.Ctx) error {
 		"session": sessionr,
 	})
 }
+
+func (u *UserHandlers) HandleGetUserByID(c *fiber.Ctx) error {
+	return nil
+}

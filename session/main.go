@@ -10,6 +10,7 @@ import (
 
 	"github.com/HsiaoCz/app-stone/session/db"
 	"github.com/HsiaoCz/app-stone/session/handlers"
+	"github.com/HsiaoCz/app-stone/session/handlers/middlewares"
 	"github.com/HsiaoCz/app-stone/session/storage"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -76,12 +77,14 @@ func main() {
 		app     = fiber.New(config)
 		port    = os.Getenv("PORT")
 		userApp = handlers.UserHandlersInit(storage.UserStoreInit(client, client.Database(os.Getenv("DBNAME")).Collection(os.Getenv("USERCOLL"))), storage.SessionStoreInit(db.Get()))
+		auth    = middlewares.AuthMdwInit(storage.SessionStoreInit(db.Get()))
 		v1      = app.Group("/api/v1")
 	)
 
 	{
 		// user handler function
 		v1.Post("/user", userApp.HandleCreateUser)
+		v1.Get("/user", auth.AuthMiddleware, userApp.HandleGetUserByID)
 	}
 
 	// restart and shutdown
