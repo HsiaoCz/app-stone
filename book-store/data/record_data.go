@@ -9,6 +9,7 @@ import (
 
 type RecordDataInter interface {
 	CreateRecord(context.Context, *types.Records) (*types.Records, error)
+	GetRecordByUserID(context.Context,string)([]*types.Records,error)
 }
 
 type RecordData struct {
@@ -27,4 +28,9 @@ func (r *RecordData) CreateRecord(ctx context.Context, record *types.Records) (*
 		return nil, tx.Error
 	}
 	return record, nil
+}
+
+func (r *RecordData)GetRecordByUserID(context.Context,user_id string)([]*types.Records,error){
+	var records []*types.Records
+	
 }
