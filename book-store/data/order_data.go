@@ -28,3 +28,7 @@ func (o *OrderData) CreateOrder(ctx context.Context, order *types.Orders) (*type
 	}
 	return order, nil
 }
+
+func (o *OrderData) DeleteOrder(ctx context.Context, order_id string) error {
+	return nil
+}

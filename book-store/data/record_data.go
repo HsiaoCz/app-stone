@@ -9,7 +9,7 @@ import (
 
 type RecordDataInter interface {
 	CreateRecord(context.Context, *types.Records) (*types.Records, error)
-	GetRecordByUserID(context.Context,string)([]*types.Records,error)
+	GetRecordByUserID(context.Context, string) ([]*types.Records, error)
 }
 
 type RecordData struct {
@@ -30,7 +30,11 @@ func (r *RecordData) CreateRecord(ctx context.Context, record *types.Records) (*
 	return record, nil
 }
 
-func (r *RecordData)GetRecordByUserID(context.Context,user_id string)([]*types.Records,error){
+func (r *RecordData) GetRecordByUserID(ctx context.Context, user_id string) ([]*types.Records, error) {
 	var records []*types.Records
-	
+	tx := r.db.Debug().WithContext(ctx).Model(&types.Records{}).Where("user_id = ?", user_id).Find(&records)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return records, nil
 }
