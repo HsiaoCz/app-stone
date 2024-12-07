@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
-function HandleCreateUser(req: Request, res: Response) {
-    
-}
+const handleCreateUser = (req: Request, res: Response) => {
+  res.send("hello");
+};
 
+export default handleCreateUser;
