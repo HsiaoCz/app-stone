@@ -4,16 +4,16 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/HsiaoCz/app-stone/book-store/data"
 	"github.com/HsiaoCz/app-stone/book-store/handlers/middlewares"
+	"github.com/HsiaoCz/app-stone/book-store/storage"
 	"github.com/HsiaoCz/app-stone/book-store/types"
 )
 
 type UserHandlers struct {
-	user data.UserDataInter
+	user storage.UserDataInter
 }
 
-func UserHandlersInit(user data.UserDataInter) *UserHandlers {
+func UserHandlersInit(user storage.UserDataInter) *UserHandlers {
 	return &UserHandlers{
 		user: user,
 	}

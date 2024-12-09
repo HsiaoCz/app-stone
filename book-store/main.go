@@ -9,10 +9,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/HsiaoCz/app-stone/book-store/data"
 	"github.com/HsiaoCz/app-stone/book-store/db"
 	"github.com/HsiaoCz/app-stone/book-store/handlers"
 	"github.com/HsiaoCz/app-stone/book-store/handlers/middlewares"
+	"github.com/HsiaoCz/app-stone/book-store/storage"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -78,9 +78,9 @@ func main() {
 	var (
 		port          = os.Getenv("PORT")
 		testHandler   = &handlers.TestHandler{}
-		userHandler   = handlers.UserHandlersInit(data.UserDataInit(db.Get()))
-		bookHandler   = handlers.BookHandlersInit(data.BookDataInit(db.Get()))
-		reviewHandler = handlers.ReviewHandlersInit(data.ReviewDataInit(db.Get()))
+		userHandler   = handlers.UserHandlersInit(storage.UserDataInit(db.Get()))
+		bookHandler   = handlers.BookHandlersInit(storage.BookDataInit(db.Get()))
+		reviewHandler = handlers.ReviewHandlersInit(storage.ReviewDataInit(db.Get()))
 		router        = http.NewServeMux()
 	)
 

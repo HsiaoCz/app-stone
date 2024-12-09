@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/HsiaoCz/app-stone/book-store/data"
+	"github.com/HsiaoCz/app-stone/book-store/storage"
 	"github.com/HsiaoCz/app-stone/book-store/types"
 )
 
 type ReviewHandlers struct {
-	dr data.ReviewDataInter
+	dr storage.ReviewDataInter
 }
 
-func ReviewHandlersInit(dr data.ReviewDataInter) *ReviewHandlers {
+func ReviewHandlersInit(dr storage.ReviewDataInter) *ReviewHandlers {
 	return &ReviewHandlers{
 		dr: dr,
 	}

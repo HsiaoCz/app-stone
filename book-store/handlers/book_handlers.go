@@ -4,15 +4,15 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/HsiaoCz/app-stone/book-store/data"
+	"github.com/HsiaoCz/app-stone/book-store/storage"
 	"github.com/HsiaoCz/app-stone/book-store/types"
 )
 
 type BookHandlers struct {
-	book data.BookDataInter
+	book storage.BookDataInter
 }
 
-func BookHandlersInit(book data.BookDataInter) *BookHandlers {
+func BookHandlersInit(book storage.BookDataInter) *BookHandlers {
 	return &BookHandlers{
 		book: book,
 	}
