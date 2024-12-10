@@ -4,16 +4,16 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/HsiaoCz/app-stone/pan-music/data"
 	"github.com/HsiaoCz/app-stone/pan-music/handlers/middlewares"
+	"github.com/HsiaoCz/app-stone/pan-music/storage"
 	"github.com/HsiaoCz/app-stone/pan-music/types"
 )
 
 type UserHandlers struct {
-	user data.UserDataInter
+	user storage.UserDataInter
 }
 
-func UserHandlersInit(user data.UserDataInter) *UserHandlers {
+func UserHandlersInit(user storage.UserDataInter) *UserHandlers {
 	return &UserHandlers{
 		user: user,
 	}

@@ -64,3 +64,11 @@ func (u *UserHandlers) HandleCreateUser(c *fiber.Ctx) error {
 func (u *UserHandlers) HandleGetUserByID(c *fiber.Ctx) error {
 	return nil
 }
+
+func (u *UserHandlers) HandleUserLoginOut(c *fiber.Ctx) error {
+	return nil
+}
+
+func (u *UserHandlers) HandleUserLogin(c *fiber.Ctx) error {
+	return nil
+}

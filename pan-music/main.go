@@ -8,9 +8,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/HsiaoCz/app-stone/pan-music/data"
 	"github.com/HsiaoCz/app-stone/pan-music/db"
 	"github.com/HsiaoCz/app-stone/pan-music/handlers"
+	"github.com/HsiaoCz/app-stone/pan-music/storage"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 )
@@ -35,7 +35,7 @@ func main() {
 	var (
 		port        = os.Getenv("PORT")
 		testHandler = &handlers.TestHandler{}
-		userHandler = handlers.UserHandlersInit(data.UserDataInit(db.Get()))
+		userHandler = handlers.UserHandlersInit(storage.UserDataInit(db.Get()))
 		router      = http.NewServeMux()
 	)
 	router.HandleFunc("GET /api/v1/test", testHandler.HandleTestConnect)
