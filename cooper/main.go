@@ -13,6 +13,11 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+func init() {
+	logrus.SetLevel(logrus.DebugLevel)
+	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
+}
+
 func main() {
 	if err := godotenv.Load(); err != nil {
 		logrus.WithFields(logrus.Fields{
@@ -20,8 +25,6 @@ func main() {
 		}).Error("get env failed,please check the env file")
 		os.Exit(1)
 	}
-	logrus.SetLevel(logrus.DebugLevel)
-	logrus.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
 
 	var (
 		port        = os.Getenv("PORT")

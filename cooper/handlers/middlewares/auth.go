@@ -50,3 +50,6 @@ func JwtMiddleware(next http.Handler) http.HandlerFunc {
 		next.ServeHTTP(w, r)
 	})
 }
+
+// something wrong
+// jwt or session cookie
