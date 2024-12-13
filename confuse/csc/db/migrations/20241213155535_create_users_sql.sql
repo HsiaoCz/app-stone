@@ -4,6 +4,11 @@ CREATE TABLE IF NOT EXISTS users(
     user_id text unique not null,
     username text not null,
     email text unique not null,
+    password_hash text not null,
+    role boolean not null default 'false',
+    created_at datetime not null,
+    updated_at datetime not null,
+    deleted_at datetime
 );
 -- +goose StatementBegin
 -- +goose StatementEnd
