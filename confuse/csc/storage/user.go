@@ -11,11 +11,16 @@ import (
 type UserStorer interface {
 	CreateUser(context.Context, *types.Users) (*types.Users, error)
 	GetUserByEmailAndPassword(context.Context, types.UserLoginParams) (*types.Users, error)
-	DeleteSessionByToken(context.Context, string) error
 }
 
 type UserStore struct {
 	db *gorm.DB
+}
+
+func UserStoreInit(db *gorm.DB) *UserStore {
+	return &UserStore{
+		db: db,
+	}
 }
 
 func (u *UserStore) CreateUser(ctx context.Context, user *types.Users) (*types.Users, error) {
@@ -33,9 +38,4 @@ func (u *UserStore) GetUserByEmailAndPassword(ctx context.Context, params types.
 		return nil, tx.Error
 	}
 	return &user, nil
-}
-
-func (u *UserStore) DeleteSessionByToken(ctx context.Context, token string) error {
-	var session types.Sessions
-	return u.db.Debug().WithContext(ctx).Model(&types.Sessions{}).Where("token = ?", token).Delete(&session).Error
 }

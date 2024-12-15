@@ -10,6 +10,8 @@ import (
 
 	"github.com/HsiaoCz/app-stone/confuse/csc/db"
 	"github.com/HsiaoCz/app-stone/confuse/csc/handlers"
+	"github.com/HsiaoCz/app-stone/confuse/csc/handlers/middlewares"
+	"github.com/HsiaoCz/app-stone/confuse/csc/storage"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 )
@@ -36,10 +38,13 @@ func main() {
 	var (
 		port         = os.Getenv("PORT")
 		app          = http.NewServeMux()
-		userHandlers = &handlers.UserHandlers{}
+		authMid      = middlewares.AuthMiddlewaresInit(storage.SessionStoreInit(db.Get()))
+		userHandlers = handlers.UserHandlersInit(storage.UserStoreInit(db.Get()), storage.SessionStoreInit(db.Get()))
 	)
 
 	app.HandleFunc("POST /api/v1/user", handlers.TransferHandlerfunc(userHandlers.HandleCreateUser))
+	app.HandleFunc("POST /api/v1/user/login", handlers.TransferHandlerfunc(userHandlers.HandleUserLogin))
+	app.HandleFunc("DELETE /api/v1/user/logout", authMid.AuthSessionsMiddleware(handlers.TransferHandlerfunc(userHandlers.HandleUserLogout)))
 
 	srv := http.Server{
 		Addr:         port,
