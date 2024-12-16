@@ -9,6 +9,8 @@ import (
 
 type OrderDataInter interface {
 	CreateOrder(context.Context, *types.Orders) (*types.Orders, error)
+	DeleteOrder(context.Context, string) error
+	UpdateOrder(context.Context, string) (*types.Orders, error)
 }
 
 type OrderData struct {

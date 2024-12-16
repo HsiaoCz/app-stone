@@ -20,3 +20,11 @@ type Addresses struct {
 //	PotalCode     int    `json:"potal_code"`
 //	PhoneNumber   string `json:"phone_number"`
 //}
+
+type AddressUpdateParams struct {
+	RecipientName string ` json:"recipient_name"`
+	AddressLine   string ` json:"column:address_line"`
+	City          string `json:"city"`
+	PotalCode     int    ` json:"potal_code"`
+	PhoneNumber   string ` json:"phone_number"`
+}

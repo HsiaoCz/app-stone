@@ -9,6 +9,8 @@ import (
 
 type AddressDataInter interface {
 	CreateAddress(context.Context, *types.Addresses) (*types.Addresses, error)
+	UpdateAddress(context.Context, types.AddressUpdateParams) (*types.Addresses, error)
+	DeleteAddress(context.Context, string) error
 }
 
 type AddressData struct {
