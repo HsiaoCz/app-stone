@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS books(
     id integer primary key,
     book_id text unique not null,
     title text not null,
-    auther text not null,
+    auther_id text not null references authers,
     price float not null,
     stock integer not null,
     category_id text not null references categories,
