@@ -10,12 +10,14 @@ import (
 )
 
 type UserHandlers struct {
-	user storage.UserDataInter
+	user   storage.UserDataInter
+	record storage.RecordDataInter
 }
 
-func UserHandlersInit(user storage.UserDataInter) *UserHandlers {
+func UserHandlersInit(user storage.UserDataInter, record storage.RecordDataInter) *UserHandlers {
 	return &UserHandlers{
-		user: user,
+		user:   user,
+		record: record,
 	}
 }
 

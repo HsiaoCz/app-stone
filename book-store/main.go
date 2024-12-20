@@ -78,7 +78,7 @@ func main() {
 	var (
 		port          = os.Getenv("PORT")
 		testHandler   = &handlers.TestHandler{}
-		userHandler   = handlers.UserHandlersInit(storage.UserDataInit(db.Get()))
+		userHandler   = handlers.UserHandlersInit(storage.UserDataInit(db.Get()), storage.RecordDataInit(db.Get()))
 		bookHandler   = handlers.BookHandlersInit(storage.BookDataInit(db.Get()))
 		reviewHandler = handlers.ReviewHandlersInit(storage.ReviewDataInit(db.Get()))
 		router        = http.NewServeMux()

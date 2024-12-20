@@ -10,7 +10,7 @@ import (
 type OrderDataInter interface {
 	CreateOrder(context.Context, *types.Orders) (*types.Orders, error)
 	DeleteOrder(context.Context, string) error
-	UpdateOrder(context.Context, string) (*types.Orders, error)
+	UpdateOrder(context.Context, string, string) (*types.Orders, error)
 }
 
 type OrderData struct {
@@ -32,5 +32,13 @@ func (o *OrderData) CreateOrder(ctx context.Context, order *types.Orders) (*type
 }
 
 func (o *OrderData) DeleteOrder(ctx context.Context, order_id string) error {
-	return nil
+	var order types.Orders
+	tx := o.db.Debug().WithContext(ctx).Model(&types.Orders{}).Where("order_id = ?", order_id).Delete(&order)
+	return tx.Error
+}
+
+func (o *OrderData) UpdateOrder(ctx context.Context, order_id string, order_status string) (*types.Orders, error) {
+	var order types.Orders
+	tx := o.db.Debug().WithContext(ctx).Model(&types.Orders{}).Where("order_id = ?", order_id).Update("order_status", order_status).First(&order)
+	return &order, tx.Error
 }

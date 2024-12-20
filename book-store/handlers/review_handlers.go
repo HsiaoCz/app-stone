@@ -37,5 +37,30 @@ func (v *ReviewHandlers) HandleCreateReview(w http.ResponseWriter, r *http.Reque
 }
 
 func (v *ReviewHandlers) HandleGetReviewByBookID(w http.ResponseWriter, r *http.Request) error {
-	return nil
+	book_id := r.URL.Query().Get("bid")
+	reviews, err := v.dr.GetReviewByBookID(r.Context(), book_id)
+	if err != nil {
+		return ErrorMessage(http.StatusBadRequest, err.Error())
+	}
+	return WriteJson(w, http.StatusOK, reviews)
+}
+
+func (v *ReviewHandlers) HandleGetReviewByID(w http.ResponseWriter, r *http.Request) error {
+	review_id := r.URL.Query().Get("rid")
+	review, err := v.dr.GetReviewByID(r.Context(), review_id)
+	if err != nil {
+		return ErrorMessage(http.StatusBadRequest, err.Error())
+	}
+	return WriteJson(w, http.StatusOK, review)
+}
+
+func (v *ReviewHandlers) HandleDeleteReviewByID(w http.ResponseWriter, r *http.Request) error {
+	review_id := r.PathValue("rid")
+	if err := v.dr.DeleteReview(r.Context(), review_id); err != nil {
+		return ErrorMessage(http.StatusBadRequest, err.Error())
+	}
+	return WriteJson(w, http.StatusOK, H{
+		"status":  http.StatusOK,
+		"message": "delete review success",
+	})
 }

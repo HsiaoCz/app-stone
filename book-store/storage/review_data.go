@@ -9,7 +9,7 @@ import (
 
 type ReviewDataInter interface {
 	CreateReview(context.Context, *types.Reviews) (*types.Reviews, error)
-	GetReviewByBookID(context.Context, string) ([]*types.Reviews, error)
+	GetReviewByBookID(context.Context, string) ([]types.Reviews, error)
 	DeleteReview(context.Context, string) error
 	GetReviewByID(context.Context, string) (*types.Reviews, error)
 }
@@ -31,8 +31,8 @@ func (r *ReviewData) CreateReview(ctx context.Context, review *types.Reviews) (*
 	return review, nil
 }
 
-func (r *ReviewData) GetReviewByBookID(ctx context.Context, book_id string) ([]*types.Reviews, error) {
-	var reviews []*types.Reviews
+func (r *ReviewData) GetReviewByBookID(ctx context.Context, book_id string) ([]types.Reviews, error) {
+	var reviews []types.Reviews
 	tx := r.db.Debug().WithContext(ctx).Model(&types.Reviews{}).Where("book_id = ?", book_id).Find(&reviews)
 	if tx.Error != nil {
 		return nil, tx.Error
