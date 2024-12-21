@@ -51,6 +51,6 @@ func (r *ReviewData) GetReviewByID(ctx context.Context, review_id string) (*type
 
 func (r *ReviewData) DeleteReview(ctx context.Context, review_id string) error {
 	var review types.Reviews
-	tx := r.db.Debug().WithContext(ctx).Model(&types.Reviews{}).Where("review_id = ?", review_id).Delete(review)
+	tx := r.db.Debug().WithContext(ctx).Model(&types.Reviews{}).Where("review_id = ?", review_id).Delete(&review)
 	return tx.Error
 }
