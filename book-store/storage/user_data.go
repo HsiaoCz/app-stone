@@ -58,5 +58,7 @@ func (u *UserData) DeleteUserByID(ctx context.Context, user_id string) error {
 }
 
 func (u *UserData) GetUsersByUsername(ctx context.Context, username string) ([]*types.Users, error) {
-	return nil, nil
+	var users []*types.Users
+	tx := u.db.Debug().WithContext(ctx).Model(&types.Users{}).Where("username = ?", username).Find(&users)
+	return users, tx.Error
 }

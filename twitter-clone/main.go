@@ -24,7 +24,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := db.InitDB(); err != nil {
+	if err := db.Init(); err != nil {
 		logrus.WithError(err).Error("Error initializing database")
 		os.Exit(1)
 	}
