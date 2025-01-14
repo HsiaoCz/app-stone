@@ -5,19 +5,18 @@ import (
 	"os"
 
 	"github.com/anthdm/superkit/db"
+	"github.com/uptrace/bun"
+	"github.com/uptrace/bun/dialect/sqlitedialect"
 
 	_ "github.com/mattn/go-sqlite3"
-
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
 
 // By default this is a pre-configured Gorm DB instance.
 // Change this type based on the database package of your likings.
-var dbInstance *gorm.DB
+var dbInstance *bun.DB
 
 // Get returns the instantiated DB instance.
-func Get() *gorm.DB {
+func Get() *bun.DB {
 	return dbInstance
 }
 
@@ -46,16 +45,11 @@ func Init() error {
 	// - gojet -> https://github.com/go-jet/jet
 	switch config.Driver {
 	case db.DriverSqlite3:
-		dbInstance, err = gorm.Open(sqlite.New(sqlite.Config{
-			Conn: dbinst,
-		}), &gorm.Config{})
+		dbInstance = bun.NewDB(dbinst, sqlitedialect.New())
 	case db.DriverMysql:
 		// ...
 	default:
 		log.Fatal("invalid driver:", config.Driver)
-	}
-	if err != nil {
-		log.Fatal(err)
 	}
 	return nil
 }

@@ -31,6 +31,11 @@ type Users struct {
 	IsAdmin    bool               `bson:"isAdmin" json:"isAdmin"`
 }
 
+type UserLogin struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type CreateUserParams struct {
 	Username string   `json:"username"`
 	Password string   `json:"password"`

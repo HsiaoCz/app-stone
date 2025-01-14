@@ -13,6 +13,7 @@ import (
 type UserStoreInter interface {
 	CreateUser(context.Context, *types.Users) (*types.Users, error)
 	GetUserByID(context.Context, primitive.ObjectID) (*types.Users, error)
+	GetUserByEmail(context.Context, string) (*types.Users, error)
 }
 
 type UserStore struct {
@@ -48,6 +49,17 @@ func (u *UserStore) GetUserByID(ctx context.Context, user_id primitive.ObjectID)
 	var user types.Users
 	filter := bson.D{
 		{Key: "_id", Value: user_id},
+	}
+	if err := u.coll.FindOne(ctx, filter).Decode(&user); err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+func (u *UserStore) GetUserByEmail(ctx context.Context, email string) (*types.Users, error) {
+	var user types.Users
+	filter := bson.D{
+		{Key: "email", Value: email},
 	}
 	if err := u.coll.FindOne(ctx, filter).Decode(&user); err != nil {
 		return nil, err
